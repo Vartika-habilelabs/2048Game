@@ -1,3 +1,9 @@
+const dir = [
+  [-1, 0],
+  [+1, 0],
+  [0, -1],
+  [0, +1],
+];
 function checkforzeroes(grid) {
   for (let i of grid) {
     for (let j of i) {
@@ -8,6 +14,32 @@ function checkforzeroes(grid) {
 }
 function transpose(grid) {
   return grid[0].map((col, ci) => grid.map((row, ri) => grid[ri][ci]));
+}
+
+function Sum(grid) {
+  let sum = 0;
+  for (let i of grid) for (let j of i) if (j !== 2) sum = sum + j;
+  return sum;
+}
+function checkForGameOver(grid) {
+  console.log(grid, "grid");
+  for (let i = 0; i < grid.length; i++)
+    for (let j = 0; j < grid[i].length; j++) {
+      for (let k = 0; k < dir.length; k++) {
+        const r = dir[k][0];
+        const c = dir[k][1];
+        if (
+          i + r >= 0 &&
+          i + r < grid.length &&
+          j + c >= 0 &&
+          j + c < grid[0].length &&
+          grid[i][j] === grid[i + r][j + c]
+        ) {
+          return false;
+        }
+      }
+    }
+  return true;
 }
 
 function appendZeroes(filteredGrid, clickedButton, grid) {
@@ -58,11 +90,9 @@ function filter(grid, dir) {
       temp.reverse();
       club.push(temp);
     }
-  // console.log(club);
   return club;
 }
-function traversal(grid, clickedButton) {
-  console.log("inside traversal");
+function traversal(grid, clickedButton, handleRestart) {
   if (clickedButton === "top" || clickedButton === "bottom") {
     grid = transpose(grid);
   }
@@ -71,19 +101,30 @@ function traversal(grid, clickedButton) {
     clickedButton === "bottom" || clickedButton === "right"
       ? filter(grid, grid.length - 1)
       : filter(grid, 0);
+
   let updatedGrid = appendZeroes(filteredGrid, clickedButton, grid);
+
   if (clickedButton === "top" || clickedButton === "bottom")
     updatedGrid = transpose(updatedGrid);
-  if (!checkforzeroes(updatedGrid)) return updatedGrid;
+
+  const score = Sum(updatedGrid);
+
+  if (!checkforzeroes(updatedGrid)) {
+    if (checkForGameOver(updatedGrid)) {
+      console.log("confirm");
+      handleRestart();
+    }
+    return { updatedGrid, score };
+  }
+
   let row = Math.floor(Math.random() * grid.length);
   let col = Math.floor(Math.random() * grid.length);
 
   while (updatedGrid[row][col] !== 0) {
-    console.log("inside while");
     row = Math.floor(Math.random() * grid.length);
     col = Math.floor(Math.random() * grid.length);
   }
   updatedGrid[row][col] = 2;
-  return updatedGrid;
+  return { updatedGrid, row, col, score };
 }
 export default traversal;
