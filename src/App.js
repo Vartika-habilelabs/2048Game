@@ -19,6 +19,7 @@ INITIAL_BOARD[row][col] = 2;
 function App() {
   const [board, setBoard] = useState(INITIAL_BOARD);
   const [gameOver, setGameOver] = useState(false);
+  
   let rowval = useRef(null);
   let colval = useRef(null);
   let scoreval = useRef(null);
@@ -51,7 +52,7 @@ function App() {
           rowval.current = row;
           colval.current = col;
           scoreval.current = score;
-          console.log(scoreval)
+          console.log(scoreval);
           return updatedGrid;
         });
       }
@@ -74,6 +75,8 @@ function App() {
   const handleRestart = (val) => {
     if (!val) setGameOver((prev) => !prev);
     setBoard(INITIAL_BOARD);
+
+    scoreval.current = null;
   };
   return (
     <div className="game-container">

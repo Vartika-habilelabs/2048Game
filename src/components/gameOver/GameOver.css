@@ -1,3 +1,12 @@
+@keyframes pop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 #game-over {
   width: 100vw;
   height: 100vh;
@@ -6,9 +15,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(40, 38, 23, 0.95);
+  /* background-color: rgba(40, 38, 23, 0.95); */
   background: linear-gradient(#383624, #282617);
-  animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.65, 0.52) forwards;
+  animation: pop-in 1s;
 }
 #game-over h1 {
   /* font-family: "Caprasimo", cursive; */

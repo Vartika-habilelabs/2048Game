@@ -4,14 +4,17 @@ export default function Header({ handleRestart, scoreval }) {
   return (
     <div className="header-container">
       <div className="header-container-headings">
-        {scoreval.current === null ? (
-          <h1>2048</h1>
-        ) : (
-          <h3>Score:{scoreval.current}</h3>
-        )}
-        <p>Join the numbers to get the 2048 tile !</p>
+        <h1 className="heading">
+          2048<span className="sub-heading">.vd</span>
+        </h1>
+
+        <p className="description">Join the numbers to get the 2048 tile !</p>
       </div>
       <div className="new-game">
+        <div className="score">
+          Score <br />
+          {scoreval.current !== null ? scoreval.current : 0}
+        </div>
         <button onClick={() => handleRestart(true)}>New Game</button>
       </div>
     </div>
